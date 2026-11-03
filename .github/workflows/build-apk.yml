@@ -98,8 +98,21 @@ jobs:
           fi
           VERSION="$(python -c "import json;print(json.load(open('lib/app-release.json'))['version'])")"
           git commit -m "Publish Dimsum Waled Android APK v${VERSION} [skip ci]"
-          git pull --rebase "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "${GITHUB_REF_NAME}"
-          git push "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "HEAD:${GITHUB_REF_NAME}"
+          # Build/sync leaves generated files behind (android assets, native-web copies).
+          # Park them so the rebase below does not abort on unstaged changes.
+          git stash push --include-untracked -m "ci-generated-artifacts" >/dev/null 2>&1 || true
+          REMOTE="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          for attempt in 1 2 3; do
+            if git push "$REMOTE" "HEAD:${GITHUB_REF_NAME}"; then
+              echo "APK berhasil dipublikasikan (percobaan ${attempt})."
+              exit 0
+            fi
+            echo "Push ditolak, menyelaraskan dengan origin lalu mencoba lagi (${attempt}/3)..."
+            git pull --rebase "$REMOTE" "${GITHUB_REF_NAME}" || git rebase --abort || true
+            sleep 5
+          done
+          echo "Gagal mempublikasikan APK setelah 3 percobaan." >&2
+          exit 1
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
