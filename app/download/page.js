@@ -31,8 +31,12 @@ function usePlatform() {
 
 function subscribeToDisplayMode(callback) {
   const query = window.matchMedia("(display-mode: standalone)");
-  query.addEventListener("change", callback);
-  return () => query.removeEventListener("change", callback);
+  if (query.addEventListener) {
+    query.addEventListener("change", callback);
+    return () => query.removeEventListener("change", callback);
+  }
+  query.addListener(callback);
+  return () => query.removeListener(callback);
 }
 
 function readStandalone() {
