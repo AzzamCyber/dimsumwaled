@@ -4,9 +4,9 @@
   "versionCode": 2,
   "file": "/app/dimsum-waled-premium.apk",
   "downloadName": "Dimsum-Waled-Premium-v2.0.0.apk",
-  "bytes": 0,
-  "sha256": "",
+  "bytes": 5253397,
+  "sha256": "41f12dd246b7319d1f5732f089b2dd27382af8c4d96e2ae439b0c3c680b45c41",
   "minAndroid": "7.0",
-  "builtAt": null,
-  "verified": false
+  "builtAt": "2026-11-03T04:42:03Z",
+  "verified": true
 }
