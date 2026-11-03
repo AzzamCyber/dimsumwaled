@@ -106,3 +106,5 @@ Domain produksi: `https://dimsumwaled.azzamcodex.dev`. Contoh konfigurasi tersed
 Workflow `.github/workflows/build-apk.yml` membangun APK setiap ada perubahan pada `android/`, `native-web/`, atau `capacitor.config.json`. Setelah lolos verifikasi branding, APK dipublikasikan otomatis ke `public/app/dimsum-waled-premium.apk` dan metadata rilis (`versi`, ukuran, SHA-256, tanggal build) ditulis ke `lib/app-release.json`. Halaman `/download` membaca metadata tersebut, jadi tombol unduh selalu menunjuk ke build terbaru.
 
 Naikkan `versionCode` dan `versionName` di `android/app/build.gradle` (serta `version`/`versionCode` di `lib/app-release.json`) setiap kali merilis update agar perangkat Android dapat memasang pembaruan di atas versi lama.
+
+> Catatan: build saat ini memakai debug keystore yang dibuat ulang di setiap runner, sehingga tanda tangannya berbeda-beda. Untuk pembaruan berkelanjutan, siapkan keystore tetap (via secret CI) lalu gunakan untuk `assembleRelease`.

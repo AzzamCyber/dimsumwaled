@@ -417,7 +417,7 @@ export default function DownloadPage() {
 
               <ol className="relative mt-7 space-y-5">
                 {[
-                  "Wajib buka halaman ini dengan Safari, bukan Chrome atau browser lain di iPhone.",
+                  "Buka Portal Karyawan lewat tombol “Buka aplikasi” di kanan atas, tetap menggunakan Safari.",
                   "Ketuk ikon Share (kotak dengan panah ke atas) di bilah bawah Safari.",
                   "Gulir menu lalu pilih “Tambah ke Layar Utama” (Add to Home Screen).",
                   "Ketuk “Tambah”. Ikon Dimsum Waled langsung tampil di layar utama.",
