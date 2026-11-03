@@ -98,6 +98,7 @@ jobs:
           fi
           VERSION="$(python -c "import json;print(json.load(open('lib/app-release.json'))['version'])")"
           git commit -m "Publish Dimsum Waled Android APK v${VERSION} [skip ci]"
+          git pull --rebase "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "${GITHUB_REF_NAME}"
           git push "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "HEAD:${GITHUB_REF_NAME}"
 
       - name: Upload APK Artifact
