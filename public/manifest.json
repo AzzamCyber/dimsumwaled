@@ -1,0 +1,25 @@
+{
+  "name": "DIMSUM MENTAI WALED PREMIUM",
+  "short_name": "Dimsum Waled",
+  "description": "Sistem kasir, persediaan, dan pengelolaan cabang DIMSUM MENTAI WALED PREMIUM.",
+  "start_url": "/portal-karyawan",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#fbf8f3",
+  "theme_color": "#d95627",
+  "lang": "id-ID",
+  "icons": [
+    {
+      "src": "/assets/icons/waled-192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/icons/waled-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any"
+    }
+  ]
+}

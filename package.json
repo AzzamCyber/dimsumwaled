@@ -1,0 +1,38 @@
+{
+  "name": "dimsum-mentai-waled-premium",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "npx --yes --package=node@22 node node_modules/next/dist/bin/next dev --port 3100",
+    "build": "npx --yes --package=node@22 node node_modules/next/dist/bin/next build",
+    "start": "npx --yes --package=node@22 node node_modules/next/dist/bin/next start --port 3100",
+    "lint": "eslint",
+    "backup:db": "node scripts/supabase-migration.cjs backup"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.4.1",
+    "@capacitor/cli": "^8.4.1",
+    "@capacitor/core": "^8.4.1",
+    "@supabase/supabase-js": "^2.108.2",
+    "clsx": "^2.1.1",
+    "framer-motion": "^12.42.0",
+    "lucide-react": "^1.22.0",
+    "next": "16.2.9",
+    "next-auth": "^4.24.14",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "react-hot-toast": "^2.6.0",
+    "tailwind-merge": "^3.6.0",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@capacitor/assets": "^3.0.5",
+    "@tailwindcss/postcss": "^4",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.9",
+    "tailwindcss": "^4"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
