@@ -1,13 +1,19 @@
 {
   "name": "DIMSUM MENTAI WALED PREMIUM",
   "short_name": "Dimsum Waled",
+  "id": "/portal-karyawan",
   "description": "Sistem kasir, persediaan, dan pengelolaan cabang DIMSUM MENTAI WALED PREMIUM.",
   "start_url": "/portal-karyawan",
   "scope": "/",
   "display": "standalone",
-  "background_color": "#fbf8f3",
+  "display_override": ["standalone", "minimal-ui", "browser"],
+  "orientation": "any",
+  "background_color": "#fffaf3",
   "theme_color": "#d95627",
   "lang": "id-ID",
+  "dir": "ltr",
+  "categories": ["business", "productivity", "food"],
+  "prefer_related_applications": false,
   "icons": [
     {
       "src": "/assets/icons/waled-192.png",
@@ -20,6 +26,20 @@
       "type": "image/png",
       "sizes": "512x512",
       "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Kasir & pesanan",
+      "short_name": "Kasir",
+      "url": "/pos",
+      "icons": [{ "src": "/assets/icons/waled-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Lihat katalog",
+      "short_name": "Katalog",
+      "url": "/katalog",
+      "icons": [{ "src": "/assets/icons/waled-192.png", "sizes": "192x192", "type": "image/png" }]
     }
   ]
 }

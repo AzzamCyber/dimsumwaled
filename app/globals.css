@@ -14,3 +14,17 @@
 @media(min-width:768px){.pos-sidebar{top:77px;height:calc(100dvh - 77px)}}
 
 @media(max-width:767px){.app-sidebar{visibility:hidden}.app-sidebar.is-open{visibility:visible}}
+
+/* iOS "Add to Home Screen": keep sticky headers below the status bar/notch. */
+@media(display-mode:standalone){
+ .workspace-header{padding-top:env(safe-area-inset-top);height:calc(77px + env(safe-area-inset-top))}
+ .cashier-app-header{padding-top:calc(17px + env(safe-area-inset-top));height:calc(80px + env(safe-area-inset-top))}
+ .login-form-side{padding-top:calc(36px + env(safe-area-inset-top))}
+ .login-page,.login-form-side{min-height:100dvh}
+}
+@media(display-mode:standalone) and (max-width:767px){
+ .workspace-header{height:calc(66px + env(safe-area-inset-top))}
+}
+@media(max-width:767px){
+ .login-page,.login-form-side{min-height:100dvh}
+}

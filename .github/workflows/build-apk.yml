@@ -15,12 +15,16 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
+
+concurrency:
+  group: android-apk-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build-android:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
 
     steps:
       - name: Checkout Repository
@@ -48,7 +52,7 @@ jobs:
 
       - name: Build APK (Debug)
         working-directory: ./android
-        run: ./gradlew assembleDebug
+        run: ./gradlew assembleDebug --no-daemon
 
       - name: Verify Android branding, production URL and signature
         shell: bash
@@ -56,6 +60,45 @@ jobs:
           AAPT_PATH="$(find "$ANDROID_HOME/build-tools" -type f -name aapt | sort -V | tail -n 1)"
           python scripts/verify-android-apk.py android/app/build/outputs/apk/debug/app-debug.apk --aapt "$AAPT_PATH" --output android/app/build/outputs/apk/debug/verification.json
           "$(dirname "$AAPT_PATH")/apksigner" verify --verbose android/app/build/outputs/apk/debug/app-debug.apk
+
+      - name: Publish APK to the download page
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          APK_SOURCE="android/app/build/outputs/apk/debug/app-debug.apk"
+          APK_TARGET="public/app/dimsum-waled-premium.apk"
+          mkdir -p public/app
+          rm -f public/app/FrozenMart.apk public/app/frozenmart.apk
+          cp "$APK_SOURCE" "$APK_TARGET"
+          python - <<'PY'
+          import hashlib, json, pathlib, datetime
+          apk = pathlib.Path('public/app/dimsum-waled-premium.apk')
+          release_path = pathlib.Path('lib/app-release.json')
+          release = json.loads(release_path.read_text(encoding='utf-8'))
+          release.update({
+              'file': '/app/dimsum-waled-premium.apk',
+              'downloadName': f"Dimsum-Waled-Premium-v{release['version']}.apk",
+              'bytes': apk.stat().st_size,
+              'sha256': hashlib.sha256(apk.read_bytes()).hexdigest(),
+              'builtAt': datetime.datetime.now(datetime.timezone.utc).isoformat(timespec='seconds').replace('+00:00', 'Z'),
+              'verified': True,
+          })
+          release_path.write_text(json.dumps(release, indent=2) + '\n', encoding='utf-8')
+          print(json.dumps(release, indent=2))
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A public/app lib/app-release.json
+          if git diff --cached --quiet; then
+            echo "APK release sudah terbaru, tidak ada perubahan."
+            exit 0
+          fi
+          VERSION="$(python -c "import json;print(json.load(open('lib/app-release.json'))['version'])")"
+          git commit -m "Publish Dimsum Waled Android APK v${VERSION} [skip ci]"
+          git push "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "HEAD:${GITHUB_REF_NAME}"
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4

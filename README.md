@@ -99,6 +99,10 @@ Uji HTTP memerlukan server lokal aktif dan backup migrasi awal. Pengujian tidak 
 
 ## Domain produksi nanti
 
-Domain yang disiapkan: `https://dimsumwaled.azzamcodex.id`. Contoh konfigurasi tersedia di `.env.production.example`. Pada hosting nanti, isi secret melalui pengaturan server dan gunakan `NEXTAUTH_URL` domain produksi. DNS, HTTPS, dan deployment belum diterapkan; aplikasi saat ini dijalankan di localhost sesuai permintaan.
+Domain produksi: `https://dimsumwaled.azzamcodex.dev`. Contoh konfigurasi tersedia di `.env.production.example`. Isi secret melalui pengaturan server hosting dan gunakan `NEXTAUTH_URL` domain produksi.
 
-Konfigurasi Capacitor sudah memakai nama dan domain baru. APK lama di `public/app/` belum dibangun ulang.
+## Rilis aplikasi Android
+
+Workflow `.github/workflows/build-apk.yml` membangun APK setiap ada perubahan pada `android/`, `native-web/`, atau `capacitor.config.json`. Setelah lolos verifikasi branding, APK dipublikasikan otomatis ke `public/app/dimsum-waled-premium.apk` dan metadata rilis (`versi`, ukuran, SHA-256, tanggal build) ditulis ke `lib/app-release.json`. Halaman `/download` membaca metadata tersebut, jadi tombol unduh selalu menunjuk ke build terbaru.
+
+Naikkan `versionCode` dan `versionName` di `android/app/build.gradle` (serta `version`/`versionCode` di `lib/app-release.json`) setiap kali merilis update agar perangkat Android dapat memasang pembaruan di atas versi lama.
