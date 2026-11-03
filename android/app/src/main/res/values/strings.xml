@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Dimsum Mentai Waled Premium</string>
+    <string name="app_name">Dimsum Waled</string>
     <string name="title_activity_main">Dimsum Mentai Waled Premium</string>
-    <string name="package_name">com.frozenmart.app</string>
-    <string name="custom_url_scheme">com.frozenmart.app</string>
+    <string name="package_name">com.dimsumwaled.app</string>
+    <string name="custom_url_scheme">com.dimsumwaled.app</string>
 </resources>

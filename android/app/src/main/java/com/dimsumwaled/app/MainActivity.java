@@ -1,4 +1,4 @@
-package com.frozenmart.app;
+package com.dimsumwaled.app;
 
 import com.getcapacitor.BridgeActivity;
 

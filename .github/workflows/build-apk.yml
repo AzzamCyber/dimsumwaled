@@ -1,13 +1,26 @@
-name: Build Android APK (Capacitor)
+name: Build Dimsum Waled Android APK
 
 on:
   push:
     branches: [ "main" ]
+    paths:
+      - 'android/**'
+      - 'native-web/**'
+      - 'assets/**'
+      - 'capacitor.config.json'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'scripts/verify-android-apk.py'
+      - '.github/workflows/build-apk.yml'
   workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   build-android:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
       - name: Checkout Repository
@@ -25,7 +38,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Install NPM Dependencies
-        run: npm install --no-package-lock
+        run: npm ci
 
       - name: Sync Capacitor Android
         run: npx cap sync android
@@ -37,8 +50,19 @@ jobs:
         working-directory: ./android
         run: ./gradlew assembleDebug
 
+      - name: Verify Android branding, production URL and signature
+        shell: bash
+        run: |
+          AAPT_PATH="$(find "$ANDROID_HOME/build-tools" -type f -name aapt | sort -V | tail -n 1)"
+          python scripts/verify-android-apk.py android/app/build/outputs/apk/debug/app-debug.apk --aapt "$AAPT_PATH" --output android/app/build/outputs/apk/debug/verification.json
+          "$(dirname "$AAPT_PATH")/apksigner" verify --verbose android/app/build/outputs/apk/debug/app-debug.apk
+
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: Frozen-Mart-App-Debug
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          name: Dimsum-Waled-Premium-Android
+          retention-days: 14
+          if-no-files-found: error
+          path: |
+            android/app/build/outputs/apk/debug/app-debug.apk
+            android/app/build/outputs/apk/debug/verification.json

@@ -1,10 +1,16 @@
 {
-  "appId": "com.frozenmart.app",
+  "appId": "com.dimsumwaled.app",
   "appName": "Dimsum Mentai Waled Premium",
-  "webDir": "public",
-  "bundledWebRuntime": false,
+  "webDir": "native-web",
+  "backgroundColor": "#fffaf3",
+  "android": {
+    "backgroundColor": "#fffaf3",
+    "allowMixedContent": false,
+    "webContentsDebuggingEnabled": false
+  },
   "server": {
-    "url": "https://dimsumwaled.azzamcodex.id/portal-karyawan",
-    "cleartext": true
+    "url": "https://dimsumwaled.azzamcodex.dev/portal-karyawan",
+    "cleartext": false,
+    "errorPath": "offline.html"
   }
 }

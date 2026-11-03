@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#D95627</color>
+    <color name="colorPrimaryDark">#33271F</color>
+    <color name="colorAccent">#D95627</color>
+    <color name="waled_background">#FFFAF3</color>
+</resources>
